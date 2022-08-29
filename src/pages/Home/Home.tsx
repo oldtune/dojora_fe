@@ -1,12 +1,10 @@
 import { Fragment } from "react";
-import "./Home.scss";
+import "./Home.less";
 import { Layout } from "antd";
+import { ChallengeList } from "../../Components/Challenge_List/Challenge_List";
+import { Challenge } from "../../Components/Challenge_List/Challenge";
 
-const { Footer, Content } = Layout;
-
-export function Home(props: {}) {
-    return (<Layout>
-        <Content>Content</Content>
-        <Footer>Footer</Footer>
-    </Layout>)
+export const Home: React.FC<{}> = (props: {}): JSX.Element => {
+    let challenges: Challenge[] = [{ title: "hi", description: "hiiii", createdDate: "" }];
+    return (<ChallengeList {...{ challenges }}></ChallengeList>)
 }
