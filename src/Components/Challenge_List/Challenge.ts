@@ -1,5 +1,16 @@
 export type Challenge = {
-  title: String;
-  description: String;
-  createdDate: String;
+  title: string;
+  description: string;
+  createdDate: string;
+};
+
+export type ChallengeResponse = {
+  title: string;
+  description: string;
+  createdDate: string;
+};
+
+export type NewChallenge = {
+  title: string;
+  description: string;
 };

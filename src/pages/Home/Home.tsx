@@ -1,10 +1,13 @@
-import { Fragment } from "react";
+import { useEffect } from "react";
 import "./Home.less";
-import { Layout } from "antd";
-import { ChallengeList } from "../../Components/Challenge_List/Challenge_List";
-import { Challenge } from "../../Components/Challenge_List/Challenge";
+import { Challenge } from "../../components/Challenge_List/Challenge";
+import { ChallengeList } from "../../components/Challenge_List/Challenge_List";
+import { ChallengeService } from "../../Services/Challenge.service";
 
 export const Home: React.FC<{}> = (props: {}): JSX.Element => {
-    let challenges: Challenge[] = [{ title: "hi", description: "hiiii", createdDate: "" }];
+    let challenges: Challenge[] = [];
+    useEffect(() => {
+        ChallengeService.getList().subscribe(data => { console.log(data) });
+    });
     return (<ChallengeList {...{ challenges }}></ChallengeList>)
 }
