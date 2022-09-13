@@ -1,12 +1,7 @@
+import { message } from "antd";
 import axios from "axios";
-import {
-  catchError,
-  from,
-  map,
-  Observable,
-  throttleTime,
-  throwError,
-} from "rxjs";
+import { catchError, tap, from, map, Observable } from "rxjs";
+import { Message } from "../Shared/Misc/Message";
 import { BaseResponseModel } from "../Shared/Models/BaseResponseModel";
 import { SettingService } from "./Settings.service";
 
@@ -67,13 +62,20 @@ function baseHttpCall<T>(
   );
 
   return from(action(resourceEndpoint)).pipe(
+    map((data) => unwrapAxiosResponse<T>(data)),
     map((data) => {
-      if (data.data && data.success) {
-        return data.data;
+      if (data.error) {
+        throw data.error;
       }
-      throw data.error;
+      if (data.validationResult) {
+        throw data.validationResult;
+      }
+      return data.data as T;
     }),
-    catchError((_) => throwError(["Failed to make HTTP Request"]))
+    catchError((err) => {
+      Message.error("Oh no, something went wrong!");
+      throw err;
+    })
   );
 }
 
@@ -84,11 +86,34 @@ function createResourceEndpoint(
   queryString?: string
 ) {
   return (
-    `${scheme}:\\${baseUri}/${endpoint}` +
+    `${scheme}://${baseUri}/${endpoint}` +
     (queryString ? `?${queryString}` : "")
   );
 }
 
 function createQueryStringPart(key: string, query: any): string {
   return `${key}=${query[key]}`;
+}
+
+function unwrapAxiosResponse<T>(response: any): BaseResponseModel<T> {
+  if (response.code && response.code === "ERR_NETWORK") {
+    return {
+      error: ["Network error"],
+      success: false,
+      validationResult: [],
+      data: {} as T,
+    };
+  }
+  if (
+    response.status &&
+    !isSuccessStatusCode(Number.parseInt(response.status))
+  ) {
+    return response.data;
+  }
+
+  return response.data;
+}
+
+function isSuccessStatusCode(statusCode: number): boolean {
+  return statusCode >= 200 && statusCode <= 299;
 }

@@ -1,17 +1,9 @@
 import { env } from "process";
 
-export const SettingService = {
-  Environment: getEnvironment(
-    getEnvironmentVariableValue("REACT_APP_ENVIRONMENT")
-  ),
-  SomeVar: getEnvironmentVariableValue("Some_Var"),
-  ServerUri: "localhost:5001",
-  ServerScheme: "https",
-};
-
 function getEnvironmentVariableValue(key: string): string {
-  if (process.env[key]) {
-    return process.env[key] as string;
+  let variable_key = `REACT_APP_${key}`;
+  if (process.env[variable_key]) {
+    return process.env[variable_key] as string;
   }
 
   return "";
@@ -29,7 +21,15 @@ function getEnvironment(environmentString: string): Environment {
 }
 
 export enum Environment {
-  Production = "Production",
-  Development = "Development",
-  Test = "Test",
+  Production = "production",
+  Development = "development",
+  Test = "test",
 }
+
+export const SettingService = {
+  Environment:
+    getEnvironment(process.env.NODE_ENV) ||
+    getEnvironment(getEnvironmentVariableValue("ENVIRONMENT")),
+  ServerUri: getEnvironmentVariableValue("SERVER_URI"),
+  ServerScheme: getEnvironmentVariableValue("SERVER_SCHEME"),
+};

@@ -7,8 +7,8 @@ import { BasePagingModel } from "../Shared/Models/BasePagingModel";
 import { HttpService } from "./Http.service";
 
 export const ChallengeService = {
-  getList: function (): Observable<BasePagingModel<ChallengeResponse>> {
-    return HttpService.get<BasePagingModel<ChallengeResponse>>("challenge");
+  getList: function (): Observable<ChallengeResponse[]> {
+    return HttpService.get<ChallengeResponse[]>("challenges");
   },
   addNew: function (challenge: Challenge): Observable<{}> {
     return HttpService.post("challenge", challenge);

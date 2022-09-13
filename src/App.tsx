@@ -26,7 +26,7 @@ function getItem(
     icon,
     children,
     label,
-    className: "menu-item"
+    className: "menu-item ant-menu-item--no-margin"
   } as MenuItem;
 }
 
