@@ -40,9 +40,10 @@ function createQueryString(
 ): string {
   let result = "";
   for (let key in Object.keys(query)) {
+    console.log(query[key]);
     result += result ? createPart(key, query) : `&${createPart(key, query)}`;
   }
-  return "";
+  return result;
 }
 
 function baseHttpCall<T>(

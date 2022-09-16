@@ -4,14 +4,15 @@ import { Challenge } from "../../Components/Challenge_List/Challenge";
 import { ChallengeList } from "../../Components/Challenge_List/Challenge_List";
 import { ChallengeLookup, ChallengeLookupSize } from "../../Components/Challenge_Lookup/Challenge_Lookup";
 import { ChallengeService } from "../../Services/Challenge.service";
+import { createDefaultFilter, createDefaultPaging } from "../../Shared/Misc/Paging";
 import "./Home.less";
 
 export const Home: React.FC<{}> = (props: {}): JSX.Element => {
     let [challenges, setChallenges] = useState([] as Challenge[]);
     let [keyword, setKeyword] = useState("");
-
+    let [filter, setFilter] = useState(createDefaultFilter);
     useEffect(() => {
-        ChallengeService.getList().subscribe((data) => {
+        ChallengeService.getList(filter).subscribe((data) => {
             setChallenges(data);
         });
     }, [keyword]);
