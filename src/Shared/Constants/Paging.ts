@@ -1,4 +1,4 @@
 export const PagingDefault = {
-    pageSize: 10,
-    pageIndex: 0
+  pageSize: 30,
+  pageIndex: 0,
 };
