@@ -8,8 +8,9 @@ import {
 import "./App.less";
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from 'antd';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Home } from './pages/Home/Home';
+import { Spinner } from './Shared/Components/Spinner/Spinner';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -46,25 +47,28 @@ const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider collapsed={true} collapsedWidth="50px" className="menu-sider menu-sider-refined">
-        {/* <div className="logo" /> */}
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
-      </Sider>
-      <Layout className="site-layout">
-        {/* <Header className="site-layout-background" style={{ padding: 0 }} /> */}
-        <Content style={{ margin: '0 16px' }}>
-          {/* <Breadcrumb style={{ margin: '16px 0' }}>
+    <Fragment>
+      <Spinner show={false} />
+      <Layout style={{ minHeight: '100vh' }}>
+        <Sider collapsed={true} collapsedWidth="50px" className="menu-sider menu-sider-refined">
+          {/* <div className="logo" /> */}
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        </Sider>
+        <Layout className="site-layout">
+          {/* <Header className="site-layout-background" style={{ padding: 0 }} /> */}
+          <Content style={{ margin: '0 16px' }}>
+            {/* <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>User</Breadcrumb.Item>
             <Breadcrumb.Item>Bill</Breadcrumb.Item>
           </Breadcrumb> */}
-          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-            <Home />
-          </div>
-        </Content>
-        {/* <Footer style={{ textAlign: 'center' }}>Dojora Project</Footer> */}
+            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+              <Home />
+            </div>
+          </Content>
+          {/* <Footer style={{ textAlign: 'center' }}>Dojora Project</Footer> */}
+        </Layout>
       </Layout>
-    </Layout>
+    </Fragment>
   );
 };
 
