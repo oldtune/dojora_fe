@@ -1,6 +1,6 @@
 import { message } from "antd";
 import axios from "axios";
-import { catchError, tap, from, map, Observable } from "rxjs";
+import { catchError, tap, from, map, Observable, isEmpty } from "rxjs";
 import { Message } from "../Shared/Misc/Message";
 import { BaseResponseModel } from "../Shared/Models/BaseResponseModel";
 import { SettingService } from "./Settings.service";
@@ -39,10 +39,24 @@ function createQueryString(
   createPart: (key: string, query: any) => string
 ): string {
   let result = "";
-  for (let key in Object.keys(query)) {
-    result += result ? createPart(key, query) : `&${createPart(key, query)}`;
+  let keys = Object.keys(query);
+
+  if (keys.length == 0) {
+    return result;
   }
-  return "";
+
+  for (let i = 0; i < keys.length; i++) {
+    console.log(keys[i]);
+    result += isEmptyQueryString(result)
+      ? createPart(keys[i], query)
+      : `&${createPart(keys[i], query)}`;
+  }
+
+  return result;
+}
+
+function isEmptyQueryString(queryString: string): boolean {
+  return !(queryString && queryString.length);
 }
 
 function baseHttpCall<T>(

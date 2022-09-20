@@ -6,8 +6,10 @@ export type BasePagingModel<T> = {
 export type PagingMetaData = {
   pageSize: number;
   pageIndex: number;
-  totalCount: number;
-  pageCount: number;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
+};
+
+export type Filter = {
+  pageIndex: number;
+  pageSize: number;
+  keyword: string;
 };
