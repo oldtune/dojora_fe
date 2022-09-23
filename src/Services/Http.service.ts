@@ -46,7 +46,6 @@ function createQueryString(
   }
 
   for (let i = 0; i < keys.length; i++) {
-    console.log(keys[i]);
     result += isEmptyQueryString(result)
       ? createPart(keys[i], query)
       : `&${createPart(keys[i], query)}`;
