@@ -12,7 +12,7 @@ import { ChallengeService } from "../../Services/Challenge.service";
 import { createDefaultFilter } from "../../Shared/Misc/Paging";
 import "./Home.less";
 
-export const Home: React.FC<{}> = (props: {}): JSX.Element => {
+export const Home: React.FC<{}> = (_): JSX.Element => {
   let [challenges, setChallenges] = useState([] as Challenge[]);
   let [filter, setFilter] = useState(createDefaultFilter);
   let [loading, setLoading] = useState(false);
@@ -42,7 +42,12 @@ export const Home: React.FC<{}> = (props: {}): JSX.Element => {
           size={ChallengeLookupSize.Medium}
         />
         <ChallengeList {...{ challenges }} />
-        <ShowMoreButton disabled={loading} onClick={showMoreBtnClickHandler} />
+        <Col md={{ span: 8, offset: 8 }}>
+          <ShowMoreButton
+            disabled={loading}
+            onClick={showMoreBtnClickHandler}
+          />
+        </Col>
       </Col>
     </Row>
   );

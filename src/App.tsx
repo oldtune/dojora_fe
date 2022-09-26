@@ -1,13 +1,16 @@
-import { UserOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  PlusOutlined,
+  QuestionOutlined,
+  HomeOutlined,
+} from "@ant-design/icons";
 import "./App.less";
 import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu } from "antd";
-import React, { Fragment, useEffect, useState } from "react";
-import { Home } from "./pages/Home/Home";
+import { Layout, Menu } from "antd";
+import React, { Fragment, useState } from "react";
 import { Spinner } from "./Shared/Components/Spinner/Spinner";
-import { createContext } from "vm";
-import { SpinnerContext } from "./Shared/Context/SpinnerContext";
-const { Header, Content, Footer, Sider } = Layout;
+import { Link, Outlet } from "react-router-dom";
+const { Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -27,8 +30,10 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem("Me", "1", <UserOutlined />),
-  getItem("Create", "2", <PlusOutlined />),
+  getItem(<Link to={`/`}>Home</Link>, 1, <HomeOutlined />),
+  getItem(<Link to={`/me`}>Me</Link>, 2, <UserOutlined />),
+  getItem(<Link to={`/create`}>Create</Link>, 3, <PlusOutlined />),
+  getItem(<Link to={`/about`}>About</Link>, 4, <QuestionOutlined />),
 ];
 
 const App: React.FC = () => {
@@ -36,14 +41,13 @@ const App: React.FC = () => {
 
   return (
     <Fragment>
-      <Spinner show={true} />
+      <Spinner show={false} />
       <Layout style={{ minHeight: "100vh" }}>
         <Sider
           collapsed={true}
           collapsedWidth="50px"
           className="menu-sider menu-sider-refined"
         >
-          {/* <div className="logo" /> */}
           <Menu
             theme="dark"
             defaultSelectedKeys={["1"]}
@@ -52,20 +56,14 @@ const App: React.FC = () => {
           />
         </Sider>
         <Layout className="site-layout">
-          {/* <Header className="site-layout-background" style={{ padding: 0 }} /> */}
           <Content style={{ margin: "0 16px" }}>
-            {/* <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb> */}
             <div
               className="site-layout-background"
               style={{ padding: 24, minHeight: 360 }}
             >
-              <Home />
+              <Outlet />
             </div>
           </Content>
-          {/* <Footer style={{ textAlign: 'center' }}>Dojora Project</Footer> */}
         </Layout>
       </Layout>
     </Fragment>
