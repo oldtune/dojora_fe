@@ -3,6 +3,7 @@ import {
   PlusOutlined,
   QuestionOutlined,
   HomeOutlined,
+  BugOutlined,
 } from "@ant-design/icons";
 import "./App.less";
 import type { MenuProps } from "antd";
@@ -32,8 +33,9 @@ function getItem(
 const items: MenuItem[] = [
   getItem(<Link to={`/`}>Home</Link>, 1, <HomeOutlined />),
   getItem(<Link to={`/me`}>Me</Link>, 2, <UserOutlined />),
-  getItem(<Link to={`/create`}>Create</Link>, 3, <PlusOutlined />),
+  getItem(<Link to={`/new`}>Create</Link>, 3, <PlusOutlined />),
   getItem(<Link to={`/about`}>About</Link>, 4, <QuestionOutlined />),
+  getItem(<Link to={`/bug-report`}>Bug report</Link>, 5, <BugOutlined />),
 ];
 
 const App: React.FC = () => {
