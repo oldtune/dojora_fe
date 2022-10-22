@@ -1,13 +1,13 @@
 import { Col, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { tap } from "rxjs";
-import { Challenge } from "../../Components/Challenge_List/Challenge";
-import { ChallengeList } from "../../Components/Challenge_List/Challenge_List";
+import { Challenge } from "../../Components/Challenge";
+import { ChallengeListComponent } from "../../Components/Challenge_List/Challenge_List";
 import {
-  ChallengeLookup,
+  ChallengeLookupComponent,
   ChallengeLookupSize,
 } from "../../Components/Challenge_Lookup/Challenge_Lookup";
-import { ShowMoreButton } from "../../Components/Show_More_Button/Show_More_Button";
+import { ShowMoreButtonComponent } from "../../Components/Show_More_Button/Show_More_Button";
 import { ChallengeService } from "../../Services/Challenge.service";
 import { createDefaultFilter } from "../../Shared/Misc/Paging";
 import "./Home.less";
@@ -37,13 +37,13 @@ export const Home: React.FC<{}> = (_): JSX.Element => {
   return (
     <Row>
       <Col md={{ span: 16, offset: 4 }} span={22} offset={1}>
-        <ChallengeLookup
+        <ChallengeLookupComponent
           onSearchClick={searchButtonHandler}
           size={ChallengeLookupSize.Medium}
         />
-        <ChallengeList {...{ challenges }} />
+        <ChallengeListComponent {...{ challenges }} />
         <Col md={{ span: 8, offset: 8 }}>
-          <ShowMoreButton
+          <ShowMoreButtonComponent
             disabled={loading}
             onClick={showMoreBtnClickHandler}
           />

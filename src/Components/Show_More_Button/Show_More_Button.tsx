@@ -5,7 +5,7 @@ export type ShowMoreButtonProps = {
   disabled?: boolean;
 };
 
-export const ShowMoreButton: React.FC<ShowMoreButtonProps> = (
+export const ShowMoreButtonComponent: React.FC<ShowMoreButtonProps> = (
   props: ShowMoreButtonProps
 ): JSX.Element => {
   return (

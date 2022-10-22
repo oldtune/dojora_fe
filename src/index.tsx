@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.less";
 import App from "./App";
@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./pages/Home/Home";
 import { About } from "./pages/About/About";
 import { NotFound } from "./pages/NotFound/NotFound";
-import { NewChallenge } from "./pages/NewChallenge/NewChallenge";
+import { NewChallengeComponent } from "./pages/NewChallenge/NewChallenge";
 import { Me } from "./pages/Me/Me";
 
 const root = ReactDOM.createRoot(
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: "new",
-        element: <NewChallenge />,
+        element: <NewChallengeComponent />,
       },
       {
         path: "me",

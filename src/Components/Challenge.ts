@@ -13,4 +13,4 @@ export type ChallengeResponse = {
 export type NewChallenge = {
   title: string;
   description: string;
-};
+}
