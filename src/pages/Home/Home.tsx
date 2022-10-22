@@ -1,6 +1,6 @@
 import { Col, Row } from "antd";
 import React, { useEffect, useState } from "react";
-import { tap } from "rxjs";
+import { finalize, tap } from "rxjs";
 import { Challenge } from "../../Components/Challenge";
 import { ChallengeListComponent } from "../../Components/Challenge_List/Challenge_List";
 import {
@@ -9,6 +9,7 @@ import {
 } from "../../Components/Challenge_Lookup/Challenge_Lookup";
 import { ShowMoreButtonComponent } from "../../Components/Show_More_Button/Show_More_Button";
 import { ChallengeService } from "../../Services/Challenge.service";
+import { Message } from "../../Shared/Misc/Message";
 import { createDefaultFilter } from "../../Shared/Misc/Paging";
 import "./Home.less";
 
@@ -18,12 +19,22 @@ export const Home: React.FC<{}> = (_): JSX.Element => {
   let [loading, setLoading] = useState(false);
   useEffect(() => {
     let filterSubscription = ChallengeService.getList(filter)
-      .pipe(tap(() => setLoading(true)))
-      .subscribe((data: Challenge[]) => {
-        setChallenges(data);
-      });
+      .pipe(
+        tap(() => setLoading(true)),
+        finalize(() => setLoading(false))
+      )
+      .subscribe(
+        (data: Challenge[]) => {
+          setChallenges(data);
+        },
+        (_) => {
+          Message.error("Failed to load challenges");
+        }
+      );
 
-    return filterSubscription.unsubscribe();
+    return () => {
+      filterSubscription.unsubscribe();
+    };
   }, [filter]);
 
   const searchButtonHandler: (value: string) => void = (value: string) => {
