@@ -1,11 +1,14 @@
 import { Button, Form, Input } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useEffect, useRef, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { NewChallenge } from "../../Components/Challenge";
 import { ChallengeService } from "../../Services/Challenge.service";
+import { Message } from "../../Shared/Misc/Message";
 
 export const NewChallengeComponent: React.FC<{}> = (_) => {
   type NewChallengeProps = NewChallenge;
+  const [state, setState] = useState<boolean>(false);
   const [newChallenge, setNewChallenge] = useState<NewChallengeProps>({
     title: "",
     description: "",
@@ -15,15 +18,20 @@ export const NewChallengeComponent: React.FC<{}> = (_) => {
 
   const createNewChallenge = (data: any) => {
     setNewChallenge(data);
+    setState(true);
   };
 
   useEffect(() => {
-    if (newChallenge && newChallenge.title && newChallenge.description) {
+    if (state) {
       ChallengeService.addNew(newChallenge).subscribe((_) => {
-        console.log("created");
+        Message.info("Challenge created successfully!");
       });
     }
   });
+
+  if (state) {
+    return <Navigate to={"/"} replace={true} />;
+  }
 
   return (
     <Form layout="vertical" ref={formRef} onFinish={createNewChallenge}>

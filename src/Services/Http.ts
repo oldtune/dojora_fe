@@ -2,9 +2,9 @@ import axios from "axios";
 import { catchError, from, map, Observable } from "rxjs";
 import { Message } from "../Shared/Misc/Message";
 import { BaseResponseModel } from "../Shared/Models/BaseResponseModel";
-import { SettingService } from "./Settings.service";
+import { Settings } from "./Settings";
 
-export const HttpService = {
+export const Http = {
   get<T>(endpoint: string, query?: any): Observable<T> {
     return baseHttpCall(endpoint, query, (finalEndpoint) =>
       axios.get(finalEndpoint)
@@ -30,7 +30,7 @@ export const HttpService = {
     return baseHttpCall(endpoint, {}, (finalEndpoint) =>
       axios.patch(finalEndpoint, payload)
     );
-  },
+  }
 };
 
 function createQueryString(
@@ -67,23 +67,14 @@ function baseHttpCall<T>(
     : "";
 
   let resourceEndpoint = createResourceEndpoint(
-    SettingService.ServerScheme,
-    SettingService.ServerUri,
+    Settings.ServerScheme,
+    Settings.ServerUri,
     endpoint,
     queryString
   );
 
   return from(action(resourceEndpoint)).pipe(
     map((data) => unwrapAxiosResponse<T>(data)),
-    map((data) => {
-      if (data.error) {
-        throw data.error;
-      }
-      if (data.validationResult) {
-        throw data.validationResult;
-      }
-      return data.data as T;
-    }),
     catchError((err) => {
       Message.error("Oh no, something went wrong!");
       throw err;
@@ -107,20 +98,9 @@ function createQueryStringPart(key: string, query: any): string {
   return `${key}=${query[key]}`;
 }
 
-function unwrapAxiosResponse<T>(response: any): BaseResponseModel<T> {
-  if (response.code && response.code === "ERR_NETWORK") {
-    return {
-      error: ["Network error"],
-      success: false,
-      validationResult: [],
-      data: {} as T,
-    };
-  }
-  if (
-    response.status &&
-    !isSuccessStatusCode(Number.parseInt(response.status))
-  ) {
-    return response.data;
+function unwrapAxiosResponse<T>(response: any): T {
+  if (response.code === "ERR_NETWORK" || !isSuccessStatusCode(Number.parseInt(response.status))) {
+    return {} as T;
   }
 
   return response.data;
