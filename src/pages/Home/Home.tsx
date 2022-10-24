@@ -13,7 +13,7 @@ import { Message } from "../../Shared/Misc/Message";
 import { createDefaultFilter } from "../../Shared/Misc/Paging";
 import "./Home.less";
 
-export const Home: React.FC<{}> = (_): JSX.Element => {
+export const HomePage: React.FC<{}> = (_): JSX.Element => {
   let [challenges, setChallenges] = useState([] as Challenge[]);
   let [filter, setFilter] = useState(createDefaultFilter);
   let [loading, setLoading] = useState(false);

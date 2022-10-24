@@ -1,4 +1,5 @@
 import { Avatar, List } from "antd";
+import { useEffect } from "react";
 import { ThreeDotIfTooLong } from "../../helpers/String_helper";
 import { Challenge } from "../Challenge";
 import "./Challenge_List.less";
@@ -10,6 +11,7 @@ type ChallengeListProps = {
 export const ChallengeListComponent: React.FC<ChallengeListProps> = (
   props: ChallengeListProps
 ): JSX.Element => {
+  useEffect(() => console.log(props));
   return (
     <List
       itemLayout="horizontal"

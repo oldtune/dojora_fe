@@ -4,11 +4,12 @@ import "./index.less";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home } from "./pages/Home/Home";
-import { About } from "./pages/About/About";
+import { HomePage } from "./pages/Home/Home";
+import { AboutPage } from "./pages/About/About";
 import { NotFound } from "./pages/NotFound/NotFound";
-import { NewChallengeComponent } from "./pages/NewChallenge/NewChallenge";
-import { Me } from "./pages/Me/Me";
+import { NewChallengePage } from "./pages/NewChallenge/NewChallenge";
+import { MePage } from "./pages/Me/Me";
+import { FeatureSuggestionPage } from "./pages/FeatureSuggestion/FeatureSuggestion";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -22,21 +23,22 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Home />,
+        element: <HomePage />,
       },
       {
         path: "new",
-        element: <NewChallengeComponent />,
+        element: <NewChallengePage />,
       },
       {
         path: "me",
-        element: <Me />,
+        element: <MePage />,
       },
+      { path: "suggest-feature", element: <FeatureSuggestionPage /> },
     ],
   },
   {
     path: "/about",
-    element: <About />,
+    element: <AboutPage />,
   },
 ]);
 root.render(

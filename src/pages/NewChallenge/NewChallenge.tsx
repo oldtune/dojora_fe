@@ -6,7 +6,7 @@ import { NewChallenge } from "../../Components/Challenge";
 import { ChallengeService } from "../../Services/Challenge.service";
 import { Message } from "../../Shared/Misc/Message";
 
-export const NewChallengeComponent: React.FC<{}> = (_) => {
+export const NewChallengePage: React.FC<{}> = (_) => {
   type NewChallengeProps = NewChallenge;
   const [state, setState] = useState<boolean>(false);
   const [newChallenge, setNewChallenge] = useState<NewChallengeProps>({
