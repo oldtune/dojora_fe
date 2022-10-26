@@ -9,9 +9,9 @@ import {
 import "./App.less";
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Spinner } from "./Shared/Components/Spinner/Spinner";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 const { Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -32,20 +32,33 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem(<Link to={`/`}>Home</Link>, 1, <HomeOutlined />),
-  getItem(<Link to={`/me`}>Me</Link>, 2, <UserOutlined />),
-  getItem(<Link to={`/new`}>Create</Link>, 3, <PlusOutlined />),
-  getItem(<Link to={`/about`}>About</Link>, 4, <QuestionOutlined />),
-  getItem(<Link to={`/bug-report`}>Bug report</Link>, 5, <BugOutlined />),
+  getItem(<NavLink to={`/`}>Home</NavLink>, "/", <HomeOutlined />),
+  getItem(<NavLink to={`/me`}>Me</NavLink>, "/me", <UserOutlined />),
+  getItem(<NavLink to={`/new`}>Create</NavLink>, "/new", <PlusOutlined />),
   getItem(
-    <Link to={`/suggest-feature`}>Suggest Feature</Link>,
+    <NavLink to={`/about`}>About</NavLink>,
+    "/about",
+    <QuestionOutlined />
+  ),
+  getItem(
+    <NavLink to={`/bug-report`}>Bug report</NavLink>,
+    "/bug-report",
+    <BugOutlined />
+  ),
+  getItem(
+    <NavLink to={`/suggest-feature`}>Suggest Feature</NavLink>,
     6,
     <ExperimentOutlined />
   ),
 ];
 
 const App: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(true);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+  const location = useLocation();
+
+  useEffect(() => {
+    setSelectedKeys([location.pathname]);
+  }, [location.pathname]);
 
   return (
     <Fragment>
@@ -57,6 +70,7 @@ const App: React.FC = () => {
           className="menu-sider menu-sider-refined"
         >
           <Menu
+            selectedKeys={selectedKeys}
             theme="dark"
             defaultSelectedKeys={["1"]}
             mode="inline"
