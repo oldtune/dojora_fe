@@ -17,20 +17,21 @@ export const HomePage: React.FC<{}> = (_): JSX.Element => {
   let [challenges, setChallenges] = useState([] as Challenge[]);
   let [filter, setFilter] = useState(createDefaultFilter);
   let [loading, setLoading] = useState(false);
+
   useEffect(() => {
     let filterSubscription = ChallengeService.getList(filter)
       .pipe(
         tap(() => setLoading(true)),
         finalize(() => setLoading(false))
       )
-      .subscribe(
-        (data: Challenge[]) => {
+      .subscribe({
+        next: (data: Challenge[]) => {
           setChallenges(data);
         },
-        (_) => {
+        error: (_) => {
           Message.error("Failed to load challenges");
-        }
-      );
+        },
+      });
 
     return () => {
       filterSubscription.unsubscribe();

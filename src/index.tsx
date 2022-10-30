@@ -10,6 +10,7 @@ import { NotFound } from "./pages/NotFound/NotFound";
 import { NewChallengePage } from "./pages/NewChallenge/NewChallenge";
 import { MePage } from "./pages/Me/Me";
 import { FeatureSuggestionPage } from "./pages/FeatureSuggestion/FeatureSuggestion";
+import { Landing } from "./pages/Landing/Landing";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,7 +18,7 @@ const root = ReactDOM.createRoot(
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/home",
     element: <App />,
     errorElement: <NotFound />,
     children: [
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "about",
     element: <AboutPage />,
+  },
+  {
+    path: "/",
+    element: <Landing />,
   },
 ]);
 root.render(
