@@ -1,5 +1,6 @@
 import { message } from "antd";
-import { ArgsProps, ConfigOptions } from "antd/lib/message";
+import { ConfigOptions } from "antd/es/message/interface";
+import { ArgsProps } from "antd/lib/message";
 
 const defaultMessageConfig: ConfigOptions = {
   duration: 3,
@@ -40,7 +41,7 @@ export const Message = {
     showMessage(msg, message.info);
   },
   warning: function (msg: string) {
-    showMessage(msg, message.warn);
+    showMessage(msg, message.warning);
   },
   success: function (msg: string) {
     showMessage(msg, message.success);

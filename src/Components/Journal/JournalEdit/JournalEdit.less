@@ -1,0 +1,70 @@
+.journal-wrapper {
+  display: flex;
+  background: url("../../../Assets/Backgrounds/grunge-vintage-old-paper-background.jpg");
+  flex: 1;
+  flex-grow: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px 10px 0px 10px;
+}
+
+#journal {
+  display: flex;
+  flex: 1;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  padding: 0px 20px 0px 20px;
+}
+
+#write_journal_input {
+  display: flex;
+  flex-grow: 1;
+  background: transparent;
+  font-family: "FallsComing";
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  resize: none;
+  font-size: 30px;
+  padding: 0;
+  margin: 0;
+}
+
+@font-face {
+  font-family: "FallsComing";
+  src: url("../../../Assets/Fonts/FallIsComingRegular-Mx9B.ttf")
+    format("truetype");
+}
+
+.pen {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.pen__grey {
+  color: grey;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: white;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

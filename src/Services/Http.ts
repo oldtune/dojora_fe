@@ -1,32 +1,31 @@
-import axios from "axios";
-import { catchError, from, map, Observable } from "rxjs";
+import axios, { AxiosResponse } from "axios";
 import { Message } from "../Shared/Misc/Message";
-import { BaseResponseModel } from "../Shared/Models/BaseResponseModel";
+import { Unit } from "../Shared/Type";
 import { Settings } from "./Settings";
 
 export const Http = {
-  get<T>(endpoint: string, query?: any): Observable<T> {
+  async get<T>(endpoint: string, query?: any): Promise<HttpResult<T>> {
     return baseHttpCall(endpoint, query, (finalEndpoint) =>
       axios.get(finalEndpoint)
     );
   },
-  post<T>(endpoint: string, payload: any, query?: any): Observable<T> {
-    return baseHttpCall(endpoint, query, (finalEndpoint) =>
+  async post<T>(endpoint: string, payload: any, query?: any): Promise<HttpResult<T>> {
+    return await baseHttpCall(endpoint, query, (finalEndpoint) =>
       axios.post(finalEndpoint, payload)
     );
   },
 
-  put<T>(endpoint: string, payload: any, query?: any): Observable<T> {
-    return baseHttpCall(endpoint, query, (finalEndpoint) =>
+  async put<T>(endpoint: string, payload: any, query?: any): Promise<HttpResult<T>> {
+    return await baseHttpCall(endpoint, query, (finalEndpoint) =>
       axios.put(finalEndpoint, payload)
     );
   },
-  delete<T>(endpoint: string): Observable<T> {
+  delete(endpoint: string): Promise<Unit> {
     return baseHttpCall(endpoint, {}, (finalEndpoint) =>
       axios.delete(finalEndpoint)
     );
   },
-  patch<T>(endpoint: string, payload: any): Observable<BaseResponseModel<T>> {
+  async patch(endpoint: string, payload: any): Promise<Unit> {
     return baseHttpCall(endpoint, {}, (finalEndpoint) =>
       axios.patch(finalEndpoint, payload)
     );
@@ -57,11 +56,11 @@ function isEmptyQueryString(queryString: string): boolean {
   return !(queryString && queryString.length);
 }
 
-function baseHttpCall<T>(
+async function baseHttpCall<T>(
   endpoint: string,
   query: any,
-  action: (endpoint: string) => Promise<BaseResponseModel<T>>
-): Observable<T> {
+  action: (endpoint: string) => Promise<AxiosResponse<T>>
+): Promise<HttpResult<T>> {
   let queryString = query
     ? createQueryString(query, createQueryStringPart)
     : "";
@@ -73,13 +72,12 @@ function baseHttpCall<T>(
     queryString
   );
 
-  return from(action(resourceEndpoint)).pipe(
-    map((data) => unwrapAxiosResponse<T>(data)),
-    catchError((err) => {
-      Message.error("Oh no, something went wrong!");
-      throw err;
-    })
-  );
+  var response = await action(resourceEndpoint);
+
+  return {
+    data: response.data,
+    success: isSuccessStatusCode(response.status)
+  };
 }
 
 function createResourceEndpoint(
@@ -98,14 +96,11 @@ function createQueryStringPart(key: string, query: any): string {
   return `${key}=${query[key]}`;
 }
 
-function unwrapAxiosResponse<T>(response: any): T {
-  if (response.code === "ERR_NETWORK" || !isSuccessStatusCode(Number.parseInt(response.status))) {
-    return {} as T;
-  }
-
-  return response.data;
-}
-
 function isSuccessStatusCode(statusCode: number): boolean {
   return statusCode >= 200 && statusCode <= 299;
 }
+
+export type HttpResult<T> = {
+  data: T | Unit,
+  success: boolean
+};

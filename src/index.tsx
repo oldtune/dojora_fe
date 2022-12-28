@@ -1,16 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.less";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { HomePage } from "./pages/Home/Home";
-import { AboutPage } from "./pages/About/About";
-import { NotFound } from "./pages/NotFound/NotFound";
-import { NewChallengePage } from "./pages/NewChallenge/NewChallenge";
-import { MePage } from "./pages/Me/Me";
-import { FeatureSuggestionPage } from "./pages/FeatureSuggestion/FeatureSuggestion";
 import { Landing } from "./pages/Landing/Landing";
+import { WriteJournal } from "./pages/WriteJournal/WriteJournal";
+import { NotFound } from "./pages/NotFound/NotFound";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -18,32 +13,23 @@ const root = ReactDOM.createRoot(
 
 const router = createBrowserRouter([
   {
-    path: "/home",
-    element: <App />,
+    path: "/journal/:journalId",
+    element: <WriteJournal />,
     errorElement: <NotFound />,
-    children: [
-      {
-        path: "",
-        element: <HomePage />,
-      },
-      {
-        path: "new",
-        element: <NewChallengePage />,
-      },
-      {
-        path: "me",
-        element: <MePage />,
-      },
-      { path: "suggest-feature", element: <FeatureSuggestionPage /> },
-    ],
   },
   {
-    path: "about",
-    element: <AboutPage />,
+    path: "/journal",
+    element: <WriteJournal />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/404",
+    element: <NotFound />,
   },
   {
     path: "/",
     element: <Landing />,
+    // errorElement: <NotFound />,
   },
 ]);
 root.render(
