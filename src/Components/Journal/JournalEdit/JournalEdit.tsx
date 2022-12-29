@@ -31,8 +31,8 @@ export const JournalEdit: React.FC<JournalEditProps> = (props) => {
   }, []);
 
   return (
-    <div className="journal-wrapper">
-      <div id="journal">
+    <div className="journal-editor-wrapper">
+      <div id="journal-editor">
         <textarea
           onChange={(event) => setContent(event?.target.value)}
           disabled={props.readonly}
@@ -41,7 +41,7 @@ export const JournalEdit: React.FC<JournalEditProps> = (props) => {
           spellCheck={false}
         />
       </div>
-      <Fragment>{saveButton}</Fragment>
+      <div className="journal-editor-toolbar">{saveButton}</div>
     </div>
   );
 };
