@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./WriteJournal.less";
 import { JournalService } from "../../Components/Journal/Journal.service";
 import { Message } from "../../Shared/Misc/Message";
@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { Journal } from "../../Components/Journal/Journal";
 import { JournalEdit } from "../../Components/Journal/JournalEdit/JournalEdit";
 import { CollapsibleSideBar } from "../../Shared/Components/Collapsible_SideBar/CollapsibleSideBar";
-import { Button } from "antd";
+import { Layout } from "antd";
 
 export const WriteJournal: React.FC = () => {
   const { journalId } = useParams();
@@ -30,10 +30,32 @@ export const WriteJournal: React.FC = () => {
     Message.error("Failed to save!");
   };
 
+  const childInputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (childInputRef.current) {
+      childInputRef.current.focus();
+    }
+  });
+
   return (
-    <div className="journal-page">
-      <JournalEdit content="" onSave={onSave} readonly={isReadonly} />
-      <CollapsibleSideBar border={true} content={<span>Index here</span>} />
-    </div>
+    <Layout>
+      <div className="journal-page">
+        <JournalEdit
+          childInputRef={childInputRef}
+          content=""
+          onSave={onSave}
+          readonly={isReadonly}
+        />
+        <CollapsibleSideBar
+          border={true}
+          content={
+            <span>
+              <b>Index</b>
+            </span>
+          }
+        />
+      </div>
+    </Layout>
   );
 };

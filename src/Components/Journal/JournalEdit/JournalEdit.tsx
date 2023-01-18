@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, Ref, useEffect, useState } from "react";
 import "./JournalEdit.less";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquarePen } from "@fortawesome/free-solid-svg-icons";
@@ -6,6 +6,7 @@ import { faSquarePen } from "@fortawesome/free-solid-svg-icons";
 export type JournalEditProps = {
   readonly: boolean;
   content: string;
+  childInputRef: any;
   onSave: (content: string) => any;
 };
 
@@ -34,6 +35,7 @@ export const JournalEdit: React.FC<JournalEditProps> = (props) => {
     <div className="journal-editor-wrapper">
       <div id="journal-editor">
         <textarea
+          ref={props.childInputRef}
           onChange={(event) => setContent(event?.target.value)}
           disabled={props.readonly}
           value={content}

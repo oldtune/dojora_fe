@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Landing } from "./pages/Landing/Landing";
 import { WriteJournal } from "./pages/WriteJournal/WriteJournal";
 import { NotFound } from "./pages/NotFound/NotFound";
+import { Login } from "./Components/User/Login/Login";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -20,6 +21,11 @@ const router = createBrowserRouter([
   {
     path: "/journal",
     element: <WriteJournal />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
     errorElement: <NotFound />,
   },
   {
