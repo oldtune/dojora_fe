@@ -1,5 +1,5 @@
 import Sider from "antd/es/layout/Sider";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CollapsibleSideBar.less";
 
 //Sider on the right
@@ -12,11 +12,18 @@ export const CollapsibleSideBar: React.FC<CollapsibleSideBarProps> = (
   props
 ) => {
   const [collapsed, setCollapsed] = useState(true);
+  const [content, setContent] = useState<JSX.Element>();
   const getClassName = (border: boolean) => {
     return border
       ? "collapsible-sidebar collapsible-sidebar__border-left"
       : "collapsible__sidebar";
   };
+
+  useEffect(() => {
+    if (props.content) {
+      setContent(props.content);
+    }
+  }, [props.content]);
 
   const onMouseOut = () => {
     setCollapsed(true);

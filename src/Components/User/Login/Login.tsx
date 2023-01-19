@@ -1,33 +1,39 @@
-import React, { Fragment, useEffect } from "react";
+import { Button, Form, Input } from "antd";
+import React, { useRef } from "react";
+import { Message } from "../../../Shared/Misc/Message";
+import { User } from "../User";
 import "./Login.less";
+import { UserService } from "./User.service";
 
 export const Login: React.FC<{}> = () => {
-  useEffect(() => {});
-  return (
-    <Fragment>
-      <div className="login-container">
-        <div className="login-form">
-          <div
-            id="g_id_onload"
-            data-client_id="323333196530-h1ab09jk0gnnbp28otf6vbpbf2m8tv0s.apps.googleusercontent.com"
-            data-context="signin"
-            data-ux_mode="popup"
-            data-login_uri="http://localhost:3000/authorise"
-            data-auto_select="true"
-            data-itp_support="true"
-          ></div>
+  let usernameRef = useRef<any>();
+  let passwordRef = useRef<any>();
+  const submitForm = async () => {
+    const user: User = {
+      username: usernameRef.current.input.value,
+      password: passwordRef.current.input.value,
+    };
 
-          <div
-            className="g_id_signin"
-            data-type="standard"
-            data-shape="rectangular"
-            data-theme="filled_blue"
-            data-text="signin_with"
-            data-size="large"
-            data-logo_alignment="left"
-          ></div>
-        </div>
-      </div>
-    </Fragment>
+    const loginResult = await UserService.Login(user);
+    if (!loginResult.success) {
+      Message.error("Wrong username or password!");
+    }
+  };
+  return (
+    <div className="login-container">
+      <Form name="login-form" labelCol={{ span: 8 }}>
+        <Form.Item name="username" label="Username" className="label__white">
+          <Input ref={usernameRef} />
+        </Form.Item>
+        <Form.Item label="Password" name="password" className="label__white">
+          <Input type="password" ref={passwordRef} />
+        </Form.Item>
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type="primary" onClick={() => submitForm()}>
+            Login
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };

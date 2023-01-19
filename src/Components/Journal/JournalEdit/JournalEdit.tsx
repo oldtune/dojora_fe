@@ -29,7 +29,7 @@ export const JournalEdit: React.FC<JournalEditProps> = (props) => {
     if (props.content) {
       setContent(props.content);
     }
-  }, []);
+  }, [props.content]);
 
   return (
     <div className="journal-editor-wrapper">
