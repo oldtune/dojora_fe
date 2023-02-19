@@ -1,33 +1,45 @@
 import axios, { AxiosResponse } from "axios";
-import { Message } from "../Shared/Misc/Message";
+import { dbg } from "../Shared/Debug/Debug";
+import { getRawFromLocalStorage } from "../Shared/Misc/LocalStorage";
 import { Unit } from "../Shared/Type";
 import { Settings } from "./Settings";
+
+
+const configs = () => {
+  const tokenResult = getRawFromLocalStorage("TOKEN");
+  return {
+    headers: {
+      Authorization: tokenResult.success ? "Bearer " + tokenResult.data : ""
+    }
+  }
+};
 
 export const Http = {
   async get<T>(endpoint: string, query?: any): Promise<HttpResult<T>> {
     return baseHttpCall(endpoint, query, (finalEndpoint) =>
-      axios.get(finalEndpoint)
+      axios.get(finalEndpoint, configs())
     );
   },
   async post<T>(endpoint: string, payload: any, query?: any): Promise<HttpResult<T>> {
+    // console.log('get from storage', token);
     return await baseHttpCall(endpoint, query, (finalEndpoint) =>
-      axios.post(finalEndpoint, payload)
-    );
+      axios.post(finalEndpoint, payload, configs())
+    )
   },
 
   async put<T>(endpoint: string, payload: any, query?: any): Promise<HttpResult<T>> {
     return await baseHttpCall(endpoint, query, (finalEndpoint) =>
-      axios.put(finalEndpoint, payload)
+      axios.put(finalEndpoint, payload, configs())
     );
   },
   delete(endpoint: string): Promise<Unit> {
     return baseHttpCall(endpoint, {}, (finalEndpoint) =>
-      axios.delete(finalEndpoint)
+      axios.delete(finalEndpoint, configs())
     );
   },
   async patch(endpoint: string, payload: any): Promise<Unit> {
     return baseHttpCall(endpoint, {}, (finalEndpoint) =>
-      axios.patch(finalEndpoint, payload)
+      axios.patch(finalEndpoint, payload, configs())
     );
   }
 };
@@ -71,12 +83,12 @@ async function baseHttpCall<T>(
     endpoint,
     queryString
   );
-
-  var response = await action(resourceEndpoint);
-
+  var response: any = await action(resourceEndpoint).catch(err => { dbg(err) });
+  dbg(response);
   return {
-    data: response.data,
-    success: isSuccessStatusCode(response.status)
+    data: response?.data ? response.data : {},
+    //fall back to -1 because response is undefined here
+    success: isSuccessStatusCode(response?.status ?? -1)
   };
 }
 
