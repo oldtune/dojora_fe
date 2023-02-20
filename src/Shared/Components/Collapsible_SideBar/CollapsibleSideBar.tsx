@@ -41,7 +41,7 @@ export const CollapsibleSideBar: React.FC<CollapsibleSideBarProps> = (
       collapsedWidth="50"
       className={getClassName(props.border)}
     >
-      {props.content}
+      {content}
     </Sider>
   );
 };

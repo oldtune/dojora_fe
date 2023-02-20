@@ -17,7 +17,12 @@ export const WriteJournal: React.FC = () => {
 
   const constructSidebarItem = (id: string, date: string) => {
     return (
-      <Link key={id} to={`/journal/${id}`} style={{ display: "block" }}>
+      <Link
+        className="sidebar_item__hover__red"
+        key={id}
+        to={`/journal/${id}`}
+        style={{ display: "block" }}
+      >
         {date}
       </Link>
     );

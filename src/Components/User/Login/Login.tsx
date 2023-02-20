@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Col, Form, Input, Row } from "antd";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../../../Shared/Context/AuthContext";
@@ -13,6 +13,7 @@ import { UserService } from "./User.service";
 export const Login: React.FC<{}> = () => {
   let userContext = useContext(AuthContext);
   const [loginStatus, setLoginStatus] = useState(false);
+  const [register, setRegister] = useState(false);
 
   useEffect(() => {
     if (userContext.user && userContext.user.authenticated) {
@@ -51,9 +52,16 @@ export const Login: React.FC<{}> = () => {
   };
 
   if (loginStatus) {
-    console.log("navigate to journal");
     return <Navigate to="/journal" />;
   }
+
+  if (register) {
+    return <Navigate to="/register" />;
+  }
+
+  const onRegister = () => {
+    setRegister(true);
+  };
 
   return (
     <div className="login-container">
@@ -69,9 +77,20 @@ export const Login: React.FC<{}> = () => {
           <Input type="password" ref={passwordRef} />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit" onClick={() => submitForm()}>
-            Login
-          </Button>
+          <Row gutter={8}>
+            <Col>
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={() => submitForm()}
+              >
+                Login
+              </Button>
+            </Col>
+            <Col>
+              <Button type="text">Register</Button>
+            </Col>
+          </Row>
         </Form.Item>
       </Form>
     </div>
