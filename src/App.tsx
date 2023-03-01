@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.less";
 import { Login } from "./Components/User/Login/Login";
+import { Register } from "./Components/User/Register/Register";
 import { Landing } from "./pages/Landing/Landing";
 import { NotFound } from "./pages/NotFound/NotFound";
 import { WriteJournal } from "./pages/WriteJournal/WriteJournal";
@@ -56,6 +57,11 @@ const App: React.FC = () => {
     {
       path: "/login",
       element: <Login />,
+      errorElement: <NotFound />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
       errorElement: <NotFound />,
     },
     {

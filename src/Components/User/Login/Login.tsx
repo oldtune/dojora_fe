@@ -88,7 +88,9 @@ export const Login: React.FC<{}> = () => {
               </Button>
             </Col>
             <Col>
-              <Button type="text">Register</Button>
+              <Button type="text" onClick={() => setRegister(true)}>
+                Register
+              </Button>
             </Col>
           </Row>
         </Form.Item>
