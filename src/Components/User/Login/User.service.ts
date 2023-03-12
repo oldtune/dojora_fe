@@ -6,6 +6,10 @@ export const UserService = {
         const response = await Http.post<string>("auth/login", user);
         return response;
     },
+    async Register(user: User): Promise<HttpResult<string>> {
+        const response = await Http.post<string>("auth/register", user);
+        return response;
+    }
 };
 
 // export type LoginResult = {

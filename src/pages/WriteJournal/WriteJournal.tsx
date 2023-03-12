@@ -1,13 +1,13 @@
+import { Layout } from "antd";
 import React, { Fragment, useEffect, useRef, useState } from "react";
-import "./WriteJournal.less";
-import { JournalService } from "../../Components/Journal/Journal.service";
-import { Message } from "../../Shared/Misc/Message";
 import { Link, useParams } from "react-router-dom";
 import { Journal, JournalBrief } from "../../Components/Journal/Journal";
+import { JournalService } from "../../Components/Journal/Journal.service";
 import { JournalEdit } from "../../Components/Journal/JournalEdit/JournalEdit";
 import { CollapsibleSideBar } from "../../Shared/Components/Collapsible_SideBar/CollapsibleSideBar";
-import { Layout } from "antd";
+import { Message } from "../../Shared/Misc/Message";
 import { UnixTimestampToDate } from "../../Shared/Misc/Time";
+import "./WriteJournal.less";
 
 export const WriteJournal: React.FC = () => {
   const { journalId } = useParams();
@@ -61,6 +61,9 @@ export const WriteJournal: React.FC = () => {
   }, [journalId]);
 
   const onSave = async (content: string) => {
+    if (!content) {
+      return;
+    }
     const journal: Journal = { content };
     const result = await JournalService.addNew(journal);
     if (result.success) {

@@ -1,6 +1,8 @@
-import { Button, Col, Form, Input, Row } from "antd";
+import { Button, Form, Input } from "antd";
 import { useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { Message } from "../../../Shared/Misc/Message";
+import { UserService } from "../Login/User.service";
 
 export const Register: React.FC = () => {
   const [registerStatus, setUserStatus] = useState(false);
@@ -9,7 +11,20 @@ export const Register: React.FC = () => {
   let passwordRef = useRef<any>();
   let confirmPasswordRef = useRef<any>();
 
-  const submitForm = async () => {};
+  const submitForm = async () => {
+    const response = await UserService.Register({
+      username: usernameRef.current.input.value,
+      password: passwordRef.current.input.value,
+    });
+
+    if (response.success) {
+      Message.success("Registration successful!");
+      setUserStatus(true);
+      return;
+    }
+
+    Message.error("Failed to register");
+  };
 
   if (registerStatus) {
     return <Navigate to="/login" />;
@@ -46,7 +61,7 @@ export const Register: React.FC = () => {
         >
           <Input type="password" ref={confirmPasswordRef} />
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
           <Button type="primary" htmlType="submit">
             Register
           </Button>
